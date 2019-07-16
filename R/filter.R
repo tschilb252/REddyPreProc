@@ -1,4 +1,4 @@
-filter = function(b, a, x, w = NA){
+filter = function(b, a, x, w){
   # Parameters
   # ----------
   #   b : matrix [N, 1]
@@ -81,7 +81,7 @@ filter = function(b, a, x, w = NA){
 
   # ADD CHECKING FOR DIMENSIONS OF w? w NEEDS TO BE A COLUMN VECTOR OR Nx1 MATRIX
   # If w is not provided, set initial states to zero
-  if(is.na(w) == T){
+  if(missing(w)){
     # Set initial state to zero
     w = matrix(0, lw, 1)
   }
@@ -123,10 +123,11 @@ filter = function(b, a, x, w = NA){
         y[index, ] = w[1, ] + b[1, ] * x[index, ]
         w[lw, ] = b[MN] * x[index, ]
       }
+    } else {
+      y = b[1] * x
     }
-  } else {
-    y = b[1] * x
   }
+
 
   return(y) # ORIGINAL FUNCTION RETURNED y AND w; OCTAVE BASE CODE ONLY RETURNS y
 }
