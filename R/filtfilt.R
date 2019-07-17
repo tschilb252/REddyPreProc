@@ -1,16 +1,16 @@
 filtfilt = function(b, a, x) {
   # Parameters
   # ----------
-  #   b : matrix [J, 1]
+  #   b : filter
   #
-  #   a : matrix [K, 1]
+  #   a : filter
 
-  #   x : matrix [L, 1]
+  #   x : filter
   #     raw data
 
   # Returns
   # -------
-  #   y : matrix [L, 1]
+  #   y : filter
   #      filtered data
   # Notes
   # -----

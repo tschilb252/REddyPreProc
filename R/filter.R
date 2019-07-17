@@ -11,7 +11,7 @@ filter = function(b, a, x, w){
 
   # Returns
   # -------
-  #   y : matrix [L, 1]
+  #   y : filter
   #      filtered data
   # Notes
   # -----
@@ -72,18 +72,15 @@ filter = function(b, a, x, w){
   lw = MN - 1
 
   # REPLACES postpad. ASSUME postpad is only used to pad and not to trim vector
-  # e.g. MN >= length(b)
+  # i.e. MN >= length(b)
   if(length(b) < MN){
     b = c(b, rep(0, MN - length(b)))
   }
 
-  # ADD ERROR CHECKING FOR INPUTS? a AND b NEED TO BE COLUMN VECTORS OR Nx1 MATRICIES
-
-  # ADD CHECKING FOR DIMENSIONS OF w? w NEEDS TO BE A COLUMN VECTOR OR Nx1 MATRIX
   # If w is not provided, set initial states to zero
   if(missing(w)){
     # Set initial state to zero
-    w = matrix(0, lw, 1)
+    w = rep(0, lw)
   }
 
   # Allocate space for result.
@@ -127,7 +124,6 @@ filter = function(b, a, x, w){
       y = b[1] * x
     }
   }
-
 
   return(y) # ORIGINAL FUNCTION RETURNED y AND w; OCTAVE BASE CODE ONLY RETURNS y
 }
