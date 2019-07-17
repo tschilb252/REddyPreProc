@@ -1,17 +1,17 @@
 filter = function(b, a, x, w){
   # Parameters
   # ----------
-  #   b : matrix [N, 1]
+  #   b : matrix [J, 1]
   #
-  #   a : matrix [N, 1]
+  #   a : matrix [K, 1]
 
-  #   x : matrix [N, 1]
+  #   x : matrix [L, 1]
   #     raw data
-  #   w : matrix [N, 1]
+  #   w : matrix [M, 1]
 
   # Returns
   # -------
-  #   y : matrix [N, 1]
+  #   y : matrix [L, 1]
   #      filtered data
   # Notes
   # -----
