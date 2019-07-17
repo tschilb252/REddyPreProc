@@ -68,7 +68,7 @@ filtfilt = function(b, a, x) {
   }
 
   # Allocate space for result.
-  y = matrix(0, lx, ncol(x))
+  y = rep(0, lx)
 
   ## Compute a the initial state taking inspiration from
   ## Likhterov & Kopeika, 2003. "Hardware-efficient technique for
@@ -77,19 +77,18 @@ filtfilt = function(b, a, x) {
   if (abs(kdc) < Inf){ # neither NaN nor +/- Inf
     si = rev(cumsum(rev(b - kdc * a)))
   } else {
-    si = matrix(0, nrow(a), ncol(a))
+    si = rep(0, la)
   }
   si = si[2:length(si)]
 
-  for(c in 1:ncol(x)){ # filter all columns, one by one
-    v = c(2 * x[1, c] - x[seq((lrefl + 1), 2, by = -1), c], x[ ,c],
-      2 * x[nrow(x),c] - x[seq((nrow(x) - 1), (nrow(x) - lrefl), by = -1), c]) # a column vector
+  # ORIGINAL CODE LOOPED OVER COLUMNS OF x IF DATA WERE LARGER THAN Nx1
+  v = c(2 * x[1] - x[seq((lrefl + 1), 2, by = -1)], x,
+    2 * x[length(x)] - x[seq((length(x) - 1), (length(x) - lrefl), by = -1)]) # a column vector
 
-    ## Do forward and reverse filtering
-    v = filter(b, a, matrix(v), matrix(si * v[1]))                    # forward filter
-    v = rev(filter(b, a, matrix(rev(v)), matrix(si * v[length(v)])))  # reverse filter
-    y[ , c] = v[(lrefl + 1):(lx + lrefl)]
-  }
+  ## Do forward and reverse filtering
+  v = filter(b, a, v, si * v[1])                    # forward filter
+  v = rev(filter(b, a, rev(v), si * v[length(v)]))  # reverse filter
+  y = v[(lrefl + 1):(lx + lrefl)]
 
   return(y)
 }

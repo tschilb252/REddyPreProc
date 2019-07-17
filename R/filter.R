@@ -1,13 +1,13 @@
 filter = function(b, a, x, w){
   # Parameters
   # ----------
-  #   b : matrix [J, 1]
+  #   b : vector
   #
-  #   a : matrix [K, 1]
+  #   a : vector
 
-  #   x : matrix [L, 1]
+  #   x : vector
   #     raw data
-  #   w : matrix [M, 1]
+  #   w : vector
 
   # Returns
   # -------
@@ -87,7 +87,7 @@ filter = function(b, a, x, w){
   }
 
   # Allocate space for result.
-  y = matrix(0, L, 1)
+  y = rep(0, L)
 
   norm = a[1]
   if(norm == 0){
@@ -107,21 +107,21 @@ filter = function(b, a, x, w){
       a = a/norm
     }
     for(index in 1:L){
-      y[index, 1] = w[1,] + b[1,] * x[index,]
+      y[index] = w[1] + b[1] * x[index]
       # Update state vector
       if(lw > 1){
-        w[1:(lw-1), ] = w[2:lw, ] - a[2:lw, ] * y[index, ] + b[2:lw, ] * x[index, ]
-        w[lw, ] = b[MN, ] * x[index, ] - a[MN, ] * y[index, ]
+        w[1:(lw-1)] = w[2:lw] - a[2:lw] * y[index] + b[2:lw] * x[index]
+        w[lw] = b[MN] * x[index] - a[MN] * y[index]
       } else {
-        w[1, ] = b[MN, ] * x[index, ] - a[MN, ] * y[index, ]
+        w[1] = b[MN] * x[index] - a[MN] * y[index]
       }
     }
   } else {
     # FIR filter
     if(l1 > 0){
       for(index in 1:L){
-        y[index, ] = w[1, ] + b[1, ] * x[index, ]
-        w[lw, ] = b[MN] * x[index, ]
+        y[index] = w[1] + b[1] * x[index]
+        w[lw] = b[MN] * x[index]
       }
     } else {
       y = b[1] * x
